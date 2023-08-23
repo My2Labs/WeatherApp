@@ -3,7 +3,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'styles.css' %}">
 <div class="jumbotron">
-    <h1 class="display-4">Air Quality</h1>
+    <h1 class="display-4">Air Quality in Views</h1>
     {% if api %}
         {% if api == "Error.." %}
             <p>Error loading page</p>
@@ -14,7 +14,6 @@
             <p>State: <span>{{ api.0.StateCode }}</span></p>
             <p>Air Quality Index: <span>{{ api.0.AQI }}</span></p>
             {{ category_description }}
-            <p class="{{category_color}}">{{ category_color }}</p>
 
             {% if api.0.Category.Name == "Good" %}
                 <p>Air Quality Condition: 

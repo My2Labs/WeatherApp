@@ -3,7 +3,12 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'styles.css' %}">
 <div class="jumbotron">
-    <h1 class="display-4">Air Quality</h1>
+        <form action="{% url 'home'%}" class="d-flex" role="search" method="POST">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="Enter Zip Code" aria-label="Search" name="zipcode">
+        <button class="btn btn-outline-secondary" type="submit">Lookup</button>
+      </form>
+    <h1 class="display-4">Air Quality in HTML</h1>
     {% if zipcode %}
         <p>{{zipcode}}</p>
     {% endif %}
@@ -11,6 +16,9 @@
         {% if api == "Error.." %}
             <p>Error loading page</p>
         {% else %}
+            <p>Result: {{result}}</p>
+                
+            <p>Output: {{output}}</p>
             <p class="columns">Date Observed: <span>{{ api.1.DateObserved }}</span></p>
             <p>Local Time Zone: <span>{{ api.1.LocalTimeZone }}</span></p>
             <p>City: <span>{{ api.1.ReportingArea }}</span></p>
@@ -43,8 +51,6 @@
             </div>
         {% endif%}
     {% endif %}
-    <p>{{ bubble_sort }}</p>
  </div>
 <!-- {{ api.1 }} -->
-
 {% endblock %}

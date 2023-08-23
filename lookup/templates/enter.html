@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+<div class="jumbotron">
+    <form method="post" action="{% url 'enter' %}">
+        {% csrf_token %}
+        <label for="user_input">Enter your name:</label>
+        <input type="text" id="user_input" name="user_input">
+        <button type="submit">Submit</button>
+    </form>
+    <br>
+    <form method="post" action="{% url 'enter' %}">
+        {% csrf_token %}
+        <input type="text" id="item" name="item" placeholder="item">
+        <input type="text" id="description" name="description" placeholder="description">
+        <button type="submit">Add Item</button>
+    </form>
+    {% if name %}
+        <p>Hola, {{ name }}!</p>
+    {% endif %}
+    {% if item %}
+        <p>Item: {{ item }}</p>
+        <p>Description: {{ description }}</p>
+    {% endif %}
+    {% for item in items %}
+    <p>{{ item.item }} - {{ item.description }}</p>
+    {% endfor %}
+    
+    
+    {% if user_input %}
+        <p>Hello, {{ user_input }}!</p>
+    {% endif %}
+    <hr>
+
+    <form method="post" action="{% url 'enter' %}">
+        {% csrf_token %}
+        
+        <input type="text" id="name" name="name" placeholder="name">
+        <input type="text" id="address" name="address" placeholder="address">
+        <button type="submit">Submit Form</button>
+    </form>
+    <br>
+
+    {% if form %}
+        {{form}}
+    {% endif %}
+
+</div>
+
+{% endblock %}
