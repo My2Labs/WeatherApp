@@ -1,0 +1,71 @@
+
+p {
+    color: gray;
+}
+
+.app-title {
+    color: rgb(84, 84, 84);
+    font-size: 28px;
+    opacity: 5;
+    padding: 10px;
+    animation: fadeIn 5s; 
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+.good {
+    background-color: lawngreen;
+    width: 100px;
+    border-radius: 3px;
+    padding: 5px;
+    color: white;
+    text-align: center;
+}
+
+.moderate {
+    background-color: rgb(249, 249, 126);
+    width: 100px;
+    border-radius: 3px;
+    padding: 5px;
+    color: white;
+    text-align: center;
+}
+
+.usg {
+    background-color: rgb(250, 180, 51);
+    width: 100px;
+    border-radius: 3px;
+    padding: 5px;
+    color: white;
+    text-align: center;
+}
+
+.unhealthy {
+    background-color: rgb(253, 120, 3);
+    width: 100px;
+    border-radius: 3px;
+    padding: 5px;
+    color: white;
+    text-align: center;
+}
+
+.veryunhealthy {
+    background-color: rgb(248, 64, 64);
+    width: 100px;
+    border-radius: 3px;
+    padding: 5px;
+    color: white;
+    text-align: center;
+}
+
+.hazardous {
+    background-color: rgb(110, 4, 4);
+    width: 100px;
+    border-radius: 3px;
+    padding: 5px;
+    color: white;
+    text-align: center;
+}

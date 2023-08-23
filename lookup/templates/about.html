@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+<div class="jumbotron">
+    <h1 class="display-4">Air Quality</h1>
+    {% if api %}
+        {% if api == "Error.." %}
+            <p>Error loading page</p>
+        {% else %}
+            <p class="columns">Date Observed: <span>{{ api.0.DateObserved }}</span></p>
+            <p>Local Time Zone: <span>{{ api.0.LocalTimeZone }}</span></p>
+            <p>City: <span>{{ api.0.ReportingArea }}</span></p>
+            <p>State: <span>{{ api.0.StateCode }}</span></p>
+            <p>Air Quality Index: <span>{{ api.0.AQI }}</span></p>
+            {{ category_description }}
+            <p class="{{category_color}}">{{ category_color }}</p>
+
+            {% if api.0.Category.Name == "Good" %}
+                <p>Air Quality Condition: 
+                <span class="{{category_color}}">{{ api.1.Category.Name }}</span></p>
+                <sub>{{ category_description }}</sub>
+            {% elif api.1.Category.Name == "Moderate" %}
+                <p >Air Quality Condition: 
+                <span class="{{category_color}}">{{ api.1.Category.Name }}</span></p>
+                <sub>{{ category_description }}</sub>
+            {% elif api.1.Category.Name == "Unhealthy for Sensitive Groups" %}
+                <p >Air Quality Condition: 
+                <span class="{{category_color}}">{{ api.1.Category.Name }}</span></p>
+                <sub>{{ category_description }}</sub>
+            {% elif api.1.Category.Name == "Unhealthy" %}
+                <p >Air Quality Condition: 
+                <span class="{{category_color}}">{{ api.1.Category.Name }}</span></p>
+                <sub>{{ category_description }}</sub>
+            {% elif api.1.Category.Name == "Very Unhealthy" %}
+                <p >Air Quality Condition: 
+                <span class="{{category_color}}">{{ api.1.Category.Name }}</span></p>
+                <sub>{{ category_description }}</sub>
+            {% elif api.1.Category.Name == "Hazardous" %}
+                <p >Air Quality Condition: 
+                <span class="{{category_color}}">{{ api.1.Category.Name }}</span></p>
+                <sub>{{ category_description }}</sub>
+            {% endif %}
+            <div class="container" style="margin-top: 30px">
+                <h2 class="display-4" style="font-size: 18px; ">Coordinates:</h2>
+                <p>Latitude: <span>{{ api.0.Latitude }}</span></p>
+                <p>Longitude: <span>{{ api.0.Longitude }}</span></p>
+            </div>
+        {% endif%}
+    {% endif %}
+
+</div>
+{{ api.1 }}
+
+{% endblock %}

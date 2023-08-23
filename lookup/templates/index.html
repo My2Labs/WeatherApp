@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+<div class="jumbotron">
+    <h1 class="display-4">Air Quality</h1>
+    {% if zipcode %}
+        <p>{{zipcode}}</p>
+    {% endif %}
+    {% if api %}
+        {% if api == "Error.." %}
+            <p>Error loading page</p>
+        {% else %}
+            <p class="columns">Date Observed: <span>{{ api.1.DateObserved }}</span></p>
+            <p>Local Time Zone: <span>{{ api.1.LocalTimeZone }}</span></p>
+            <p>City: <span>{{ api.1.ReportingArea }}</span></p>
+            <p>State: <span>{{ api.1.StateCode }}</span></p>
+            <p>Air Quality Index: <span>{{ api.1.AQI }}</span></p>
+
+            {% if api.1.Category.Name == "Good" %}
+              <p>Air Quality Condition: <span style="background-color: lawngreen; padding: 5px; border-radius: 3px;">{{ api.1.Category.Name }}</span></p>
+                <sub>Air quality is considered satisfactory, and air pollution poses little or no risk.</sub>
+            {% elif api.1.Category.Name == "Moderate" %}
+                <p >Air Quality Condition: <span style="background-color: rgb(249, 249, 126);  padding: 5px; border-radius: 3px;">{{ api.1.Category.Name }}</span></p>
+                <sub>Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.</sub>
+            {% elif api.1.Category.Name == "Unhealthy for Sensitive Groups" %}
+                <p >Air Quality Condition: <span style="background-color: rgb(250, 180, 51);  padding: 5px; border-radius: 3px;">{{ api.1.Category.Name }}</span></p>
+                <sub>Although general public is not likely to be affected at this air quality range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults and children are at greater risk from the presence of particles in the air.</sub>
+            {% elif api.1.Category.Name == "Unhealthy" %}
+                <p >Air Quality Condition: <span style="background-color: rgb(253, 120, 3);  padding: 5px; border-radius: 3px;">{{ api.1.Category.Name }}</span></p>
+                <sub>Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects.</sub>
+            {% elif api.1.Category.Name == "Very Unhealthy" %}
+                <p >Air Quality Condition: <span style="background-color: rgb(248, 64, 64);  padding: 5px; border-radius: 3px;">{{ api.1.Category.Name }}</span></p>
+                <sub>Health alert: Everyone may experience more serious health effects.</sub>
+            {% elif api.1.Category.Name == "Hazardous" %}
+                <p >Air Quality Condition: <span style="background-color: rgb(110, 4, 4);  padding: 5px; border-radius: 3px;">{{ api.1.Category.Name }}</span></p>
+                <sub>Health warnings of emergency conditions.  The entire population is more likely to be affected.</sub>
+            {% endif %}
+            <div class="container" style="margin-top: 30px">
+                <h2 class="display-4" style="font-size: 18px; ">Coordinates:</h2>
+                <p>Latitude: <span>{{ api.1.Latitude }}</span></p>
+                <p>Longitude: <span>{{ api.1.Longitude }}</span></p>
+            </div>
+        {% endif%}
+    {% endif %}
+    <p>{{ bubble_sort }}</p>
+ </div>
+<!-- {{ api.1 }} -->
+
+{% endblock %}
