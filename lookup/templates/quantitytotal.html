@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<br>
+<form method="post">
+    {% csrf_token %}
+    <p>Price x Quantity</p>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price"><br>
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity"><br>
+    <button type="submit">Multiply</button>
+</form>
+
+
+{% endblock %}

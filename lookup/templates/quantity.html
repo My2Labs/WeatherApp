@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<br>
+<form method="post">
+    {% csrf_token %}
+    <p>Price x Quantity</p>
+    <label for="price">Price:</label>
+    <input type="float" id="price" name="price"><br>
+    <label for="quantity">Quantity:</label>
+    <input type="float" id="quantity" name="quantity"><br>
+    <button type="submit">Multiply</button>
+</form>
+{% if total %}
+    <p class="d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2">Total: ${{ rounded }} </p>
+{% endif %}
+
+
+{% endblock %}

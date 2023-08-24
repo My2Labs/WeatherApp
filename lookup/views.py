@@ -1,10 +1,50 @@
 from doctest import OutputChecker
 from unittest import result
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from django.contrib.sessions.models import Session
 from .templatetags.forms import GreetingForm
 from .templatetags.models import Item
 from .templatetags.my_script import bubble_sort, calculate_result
+from .templatetags.utils import calculate, calculate_total
+
+
+def calculator(request):
+    import requests
+    if request.method == 'POST':
+        operation = request.POST.get('operation')
+        num1 = float(request.POST.get('num1'))
+        num2 = float(request.POST.get('num2'))
+        
+        result = calculate(operation, num1, num2)
+        context = {
+            'operation': operation,
+            'num1': num1,
+            'num2': num2,
+            'result': result
+        }
+        return render(request, 'calculator.html', context)
+    else:
+        return render(request, 'calculator.html')
+
+
+def quantity(request):  
+    myname = request.POST.get('myname', '')
+    import requests
+    if request.method == 'POST':
+        price = float(request.POST.get('price'))
+        quantity = float(request.POST.get('quantity'))
+
+        total = calculate_total(price, quantity)
+        rounded = round(total, 2)
+        context = {
+            'price': price,
+            'quantity': quantity,
+            'total': total,
+            'rounded': rounded
+        }
+        return render(request, 'quantity.html', context)
+    else:
+        return render(request, 'quantity.html')
 
 
 def enter(request):
@@ -15,7 +55,8 @@ def enter(request):
     items = request.POST.get('item', '') + request.POST.get('description', '')
     description = request.POST.get('description', '')
     item = request.POST.get('item', '')
-        
+    myname = request.POST.get('myname', '')
+    age = request.POST.get('age', '')
     
     def process_input(request):
         if request.method == 'POST':
@@ -28,11 +69,17 @@ def enter(request):
         name = "Alice"
         
     def greet_with_form(request):
-        form = GreetingForm(request.POST or None)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            address = form.cleaned_data['address']
-            return render(request, 'enter.html', {'name': name, 'address': address, 'form': form})
+        if request.method == 'POST':
+            form = GreetingForm(request.POST)
+            if form.is_valid():
+                myname = form.cleaned_data['myname']
+                request.session['myname'] = myname
+                myaddress = form.cleaned_data['address']
+                age = form.cleaned_data['age'] + 2
+                return redirect('success')
+            return render(request, 'enter.html', {'myname': myname})
+        else:
+            form = GreetingForm()
         return render(request, 'enter.html', {'form': form})
         
     # def display_items(request):
@@ -44,6 +91,11 @@ def enter(request):
             item = request.POST.get('item', '')
             description = request.POST.get('description', '')
             return render(request, 'enter.html', {'item': item, 'description': description})
+    
+    # def test_function(request):
+    #     if x:
+    #         x == x + 2
+    #         return x
 
     return render(request, 'enter.html', {
         'user_input': user_input,
@@ -51,12 +103,13 @@ def enter(request):
         'description': description,
         'item': item,
         'form': form,
-        
+        'myname': myname,
+        'age': age,
         })
 
 
 
-def about(request):
+def airviews(request):
     import json
     import requests
     api_request = requests.get("https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=37201&distance=25&API_KEY=60CCA6E7-534C-4471-A04F-0DAA8BADD8A7")
@@ -87,7 +140,7 @@ def about(request):
         category_color = "hazardous"  
 
 
-    return render(request, 'about.html', {
+    return render(request, 'airviews.html', {
         'api': api, 
         'category_description': category_description, 
         'category_color': category_color,
@@ -97,7 +150,7 @@ def about(request):
 
 
 
-def index(request):
+def airhtml(request):
     import json
     import requests
 
@@ -113,7 +166,7 @@ def index(request):
             api = "Error.."
         
 
-        return render(request, 'index.html', {'api': api, 'zipcode': zipcode, 'bubble_sort': bubble_sort, 'output': output, 'result': result})
+        return render(request, 'airhtml.html', {'api': api, 'zipcode': zipcode, 'bubble_sort': bubble_sort, 'output': output, 'result': result})
     
     else:  
         api_request = requests.get("https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=37201&distance=25&API_KEY=60CCA6E7-534C-4471-A04F-0DAA8BADD8A7")
@@ -126,4 +179,8 @@ def index(request):
             api = "Error.."
 
 
-        return render(request, 'index.html', {'api': api, 'result': result, 'output': output})
+        return render(request, 'airhtml.html', {'api': api, 'result': result, 'output': output})
+
+def display_session(request):
+    myname = request.session.get('myname', None)
+    return render(request, 'enter.html', 'airhtml.html', 'airviews.html', 'calculator.html', 'quantity.html', {'myname': myname})

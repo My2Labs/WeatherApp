@@ -1,5 +1,6 @@
 from django import forms
 
 class GreetingForm(forms.Form):
-    name = forms.CharField()
-    address = forms.TextInput()
+    myname = forms.CharField(label='Name')
+    myaddress = forms.CharField(label='Address')
+    age = forms.IntegerField(label='Age')

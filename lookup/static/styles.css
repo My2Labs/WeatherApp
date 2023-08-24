@@ -1,6 +1,27 @@
 
 p {
-    color: gray;
+    color: rgb(79, 79, 79);
+}
+
+.air-data  {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.card {
+    width: 95%;
+    padding: 20px;
+    margin: 5px;
+}
+
+span{
+    color: blue;
+    margin-left: 10px;
+}
+
+.description {
+    font-size: 12px;
+    margin: 5px 0px 30px 30px;
 }
 
 .app-title {
@@ -12,9 +33,24 @@ p {
 }
 
 @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
+    0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+.title-search {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-content: space-between;
+    background-color: rgba(234, 234, 234, 0.63);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid silver;
+}
 
 .good {
     background-color: lawngreen;
@@ -30,7 +66,7 @@ p {
     width: 100px;
     border-radius: 3px;
     padding: 5px;
-    color: white;
+    color: darkslategrey;
     text-align: center;
 }
 
@@ -39,7 +75,7 @@ p {
     width: 100px;
     border-radius: 3px;
     padding: 5px;
-    color: white;
+    color: darkslategrey;
     text-align: center;
 }
 
@@ -68,4 +104,62 @@ p {
     padding: 5px;
     color: white;
     text-align: center;
+}
+
+.address-form {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 70%;
+    margin: auto;
+}
+
+.name-form {
+    display: block;
+}
+
+.form-button,
+.returned-name {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.form-submit {
+    background-color: rgb(183, 183, 183);
+    color: white;
+    border-radius: 7px;
+    width: auto;
+    padding: 5px;
+    margin: auto;
+    border: solid 1px silver;
+    text-align: center;
+}
+
+.form-submit:hover {
+    background-color: white;
+    color: blue;
+    border-radius: 7px;
+    width: auto;
+    padding: 5px;
+    margin: auto;
+    border: solid 1px silver;
+    text-align: center;
+    animation: fadeIn 1s ease 1ms 1 normal none;
+}
+
+@media screen and (max-width: 829px){
+    .air-data  {
+        display: block;
+        padding: 40px;
+    }
+    .title-search {
+        display: block;
+    }
+        
+}
+
+@media screen and (max-width: 419px){
+    * {
+        font-size: 14px;
+    }
+        
 }

@@ -4,9 +4,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.index, name="home"),
-    path('about', views.about, name="about"),
-    path('enter', views.enter, name="enter"),
+    path('airhtml', views.airhtml, name="airhtml"),
+    path('airviews', views.airviews, name="airviews"),
+    path('', views.enter, name="enter"),
+    path('calculator', views.calculator, name="calculator"),
+    path('quantity', views.quantity, name="quantity"),
+    path('success', views.airhtml, name='success'),
+    
 ] 
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

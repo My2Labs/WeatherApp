@@ -19,30 +19,30 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Air Quality Code in Views</a>
+                <a class="nav-link active" aria-current="page" href="{% url 'airhtml' %}">Air Quality Code in HTML</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'about' %}">AirQuality Code in HTML</a>
+                <a class="nav-link" href="{% url 'airviews' %}">AirQuality Code in Views</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
+                  Calculations
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="nav-link" href="{% url 'calculator' %}">Calculate</a></li>
+                  <li><a class="nav-link" href="{% url 'quantity' %}">Quantity</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
               </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-              </li>
             </ul>
-            <form class="d-flex" role="search">
+            {% if myname %}
+            <p>Hello, {{ myname }}!</p>
+            {% endif %}
+                <!-- <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-secondary" type="submit">Search</button>
-            </form>
+            </form> -->
           </div>
         </div>
       </nav>    
