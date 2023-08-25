@@ -10,8 +10,7 @@ urlpatterns = [
     path('calculator', views.calculator, name="calculator"),
     path('quantity', views.quantity, name="quantity"),
     path('success', views.airhtml, name='success'),
-    
-] 
+    ] 
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

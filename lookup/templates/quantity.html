@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-
+<link rel="stylesheet" href="{% static 'styles.css' %}">
 <br>
 <form method="post">
     {% csrf_token %}
@@ -10,7 +10,7 @@
     <input type="float" id="price" name="price"><br>
     <label for="quantity">Quantity:</label>
     <input type="float" id="quantity" name="quantity"><br>
-    <button type="submit">Multiply</button>
+    <button class="form-submit" type="submit">Multiply</button>
 </form>
 {% if total %}
     <p class="d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2">Total: ${{ rounded }} </p>

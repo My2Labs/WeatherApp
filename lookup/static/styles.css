@@ -123,11 +123,16 @@ span{
     margin-top: 10px;
 }
 
+.address-form {
+    padding-top: 50px;
+}
+
 .form-submit {
     background-color: rgb(183, 183, 183);
     color: white;
     border-radius: 7px;
     width: auto;
+    min-width: 100px;
     padding: 5px;
     margin: auto;
     border: solid 1px silver;
@@ -139,6 +144,7 @@ span{
     color: blue;
     border-radius: 7px;
     width: auto;
+    min-width: 100px;
     padding: 5px;
     margin: auto;
     border: solid 1px silver;

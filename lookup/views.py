@@ -1,11 +1,13 @@
 from doctest import OutputChecker
 from unittest import result
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.sessions.models import Session
 from .templatetags.forms import GreetingForm
 from .templatetags.models import Item
 from .templatetags.my_script import bubble_sort, calculate_result
 from .templatetags.utils import calculate, calculate_total
+import logging
 
 
 def calculator(request):
@@ -28,7 +30,6 @@ def calculator(request):
 
 
 def quantity(request):  
-    myname = request.POST.get('myname', '')
     import requests
     if request.method == 'POST':
         price = float(request.POST.get('price'))
@@ -47,6 +48,49 @@ def quantity(request):
         return render(request, 'quantity.html')
 
 
+def process_input(request):
+    if request.method == 'POST':
+        user_input = request.POST.get('user_input', '')  # Get the input from the form
+        # Perform any processing you need on user_input
+        request.session['user_input'] = 'user_name'
+        logging.info(user_input)
+        return render(request, 'enter.html', {'user_input': user_input})
+    
+def display_items(request):
+    if request.method == 'POST':
+        item = request.POST.get('item', '')
+        description = request.POST.get('description', '')
+        return render(request, 'enter.html', {'item': item, 'description': description})
+    
+def display_items(request):
+    items = Item.objects.all()
+    return render(request, 'enter.html', {'items': items})
+
+
+def greet_with_form(request):
+    if request.method == 'POST':
+        form = GreetingForm(request.POST)
+        if form.is_valid():
+            myname = form.cleaned_data['myname']
+            request.session['myname'] = 'setname'
+            setname = request.session.get('myname', '')
+            myaddress = form.cleaned_data['address']
+            age = form.cleaned_data['age'] + 2
+            logging.info(myname)
+        return render(request, 'enter.html', {'myname': myname, 'setname': setname})
+    else:
+        form = GreetingForm()
+    return render(request, 'enter.html', {'form': form})
+
+
+def base_return(request):
+    import json
+    import requests
+    myname = request.POST.get('myname', '')
+
+    return render(request, 'base.html', {'myname': myname})
+
+
 def enter(request):
     import json
     import requests
@@ -57,46 +101,15 @@ def enter(request):
     item = request.POST.get('item', '')
     myname = request.POST.get('myname', '')
     age = request.POST.get('age', '')
-    
-    def process_input(request):
-        if request.method == 'POST':
-            user_input = request.POST.get('user_input', '')  # Get the input from the form
-            # Perform any processing you need on user_input
+    logging.info(myname)
 
-            return render(request, 'enter.html', {'user_input': user_input})
-    
-    def greetings(request):
-        name = "Alice"
+   
+    def get_form_name(request):
+        form_name = request.session.get('myname', None)
+        return render(request, 'enter.html', {'form_name': form_name})
         
-    def greet_with_form(request):
-        if request.method == 'POST':
-            form = GreetingForm(request.POST)
-            if form.is_valid():
-                myname = form.cleaned_data['myname']
-                request.session['myname'] = myname
-                myaddress = form.cleaned_data['address']
-                age = form.cleaned_data['age'] + 2
-                return redirect('success')
-            return render(request, 'enter.html', {'myname': myname})
-        else:
-            form = GreetingForm()
-        return render(request, 'enter.html', {'form': form})
-        
-    # def display_items(request):
-    #     items = Item.objects.all()
-    #     return render(request, 'enter.html', {'items': items})
 
-    def display_items(request):
-        if request.method == 'POST':
-            item = request.POST.get('item', '')
-            description = request.POST.get('description', '')
-            return render(request, 'enter.html', {'item': item, 'description': description})
     
-    # def test_function(request):
-    #     if x:
-    #         x == x + 2
-    #         return x
-
     return render(request, 'enter.html', {
         'user_input': user_input,
         'items': items,
@@ -105,7 +118,7 @@ def enter(request):
         'form': form,
         'myname': myname,
         'age': age,
-        })
+       })
 
 
 
