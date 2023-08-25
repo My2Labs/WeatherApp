@@ -4,6 +4,11 @@
 <link rel="stylesheet" href="{% static 'styles.css' %}">
 <div class="title-search" role="alert">
     <p>Air Quality in Views</p>
+    <form action="{% url 'airviews'%}" class="d-flex" role="search" method="POST" style="margin: auto;">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="Enter Zip Code" aria-label="Search" name="zipcode" style="width: 200px;">
+        <button class="btn btn-outline-secondary" type="submit">Lookup</button>
+    </form>
 </div>    
 <div class="jumbotron">
     <div class="container">
