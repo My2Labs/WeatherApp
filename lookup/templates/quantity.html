@@ -3,18 +3,28 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'styles.css' %}">
 <br>
+<h5>Price x Quantity</h5>
 <form method="post">
     {% csrf_token %}
-    <p>Price x Quantity</p>
-    <label for="price">Price:</label>
-    <input type="float" id="price" name="price"><br>
-    <label for="quantity">Quantity:</label>
-    <input type="float" id="quantity" name="quantity"><br>
-    <button class="form-submit" type="submit">Multiply</button>
+    <p></p>
+    <div class="card">
+        <div class="calculator-card">
+            <label for="price">Price:</label>
+            <input type="float" id="price" name="price"><br>
+        </div>
+        <div class="calculator-card">
+            <label for="quantity">Quantity:</label>
+            <input type="float" id="quantity" name="quantity"><br>
+        </div>
+        <button class="form-submit" type="submit">Multiply</button>
+        <div class="returned-calculation">
+            {% if total %}
+                <p>Result: </p>
+                <p class="d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2">{{ rounded }}</p>
+            {% endif %}
+        </div>
+    </div>
 </form>
-{% if total %}
-    <p class="d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2">Total: ${{ rounded }} </p>
-{% endif %}
 
 
 {% endblock %}

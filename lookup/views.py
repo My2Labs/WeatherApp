@@ -11,18 +11,19 @@ import logging
 
 
 def calculator(request):
-    import requests
     if request.method == 'POST':
         operation = request.POST.get('operation')
         num1 = float(request.POST.get('num1'))
         num2 = float(request.POST.get('num2'))
         
         result = calculate(operation, num1, num2)
+        rounded = round(result, 2)
         context = {
             'operation': operation,
             'num1': num1,
             'num2': num2,
-            'result': result
+            'result': result,
+            'rounded': rounded,
         }
         return render(request, 'calculator.html', context)
     else:
@@ -30,7 +31,6 @@ def calculator(request):
 
 
 def quantity(request):  
-    import requests
     if request.method == 'POST':
         price = float(request.POST.get('price'))
         quantity = float(request.POST.get('quantity'))
@@ -48,73 +48,34 @@ def quantity(request):
         return render(request, 'quantity.html')
 
 
-def process_input(request):
-    if request.method == 'POST':
-        user_input = request.POST.get('user_input', '')  # Get the input from the form
-        # Perform any processing you need on user_input
-        request.session['user_input'] = 'user_name'
-        logging.info(user_input)
-        return render(request, 'enter.html', {'user_input': user_input})
-    
 def display_items(request):
     if request.method == 'POST':
         item = request.POST.get('item', '')
         description = request.POST.get('description', '')
         return render(request, 'enter.html', {'item': item, 'description': description})
+
     
-def display_items(request):
-    items = Item.objects.all()
-    return render(request, 'enter.html', {'items': items})
-
-
-def greet_with_form(request):
-    if request.method == 'POST':
-        form = GreetingForm(request.POST)
-        if form.is_valid():
-            myname = form.cleaned_data['myname']
-            request.session['myname'] = 'setname'
-            setname = request.session.get('myname', '')
-            myaddress = form.cleaned_data['address']
-            age = form.cleaned_data['age'] + 2
-            logging.info(myname)
-        return render(request, 'enter.html', {'myname': myname, 'setname': setname})
-    else:
-        form = GreetingForm()
-    return render(request, 'enter.html', {'form': form})
-
-
-def base_return(request):
-    import json
-    import requests
-    myname = request.POST.get('myname', '')
-
-    return render(request, 'base.html', {'myname': myname})
 
 
 def enter(request):
-    import json
     import requests
     user_input = request.POST.get('user_input', '') 
     form = GreetingForm(request.POST or None)
-    items = request.POST.get('item', '') + request.POST.get('description', '')
-    description = request.POST.get('description', '')
-    item = request.POST.get('item', '')
     myname = request.POST.get('myname', '')
     age = request.POST.get('age', '')
-    logging.info(myname)
 
    
-    def get_form_name(request):
-        form_name = request.session.get('myname', None)
-        return render(request, 'enter.html', {'form_name': form_name})
-        
+    # if request.method == 'POST':
+    #     form = GreetingForm(request.POST)
+    #     if form.is_valid():
+    #         myname = form.cleaned_data['myname']
+    #     return render(request, 'enter.html', {'myname': myname})
+    # else:
+    #     form = GreetingForm()
 
     
     return render(request, 'enter.html', {
         'user_input': user_input,
-        'items': items,
-        'description': description,
-        'item': item,
         'form': form,
         'myname': myname,
         'age': age,
@@ -193,7 +154,3 @@ def airhtml(request):
 
 
         return render(request, 'airhtml.html', {'api': api, 'result': result, 'output': output})
-
-def display_session(request):
-    myname = request.session.get('myname', None)
-    return render(request, 'enter.html', 'airhtml.html', 'airviews.html', 'calculator.html', 'quantity.html', {'myname': myname})

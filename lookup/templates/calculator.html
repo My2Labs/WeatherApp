@@ -2,25 +2,37 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'styles.css' %}">
-<h1>Calculator</h1>
+<h5>Calculator</h5>
 <form method="post">
     {% csrf_token %}
-    <label for="operation">Operation:</label>
-    <select id="operation" name="operation">
-        <option value="add">Add</option>
-        <option value="subtract">Subtract</option>
-        <option value="multiply">Multiply</option>
-        <option value="divide">Divide</option>
-    </select><br>
-    <label for="num1">Number 1:</label>
-    <input type="number" id="num1" name="num1"><br>
-    <label for="num2">Number 2:</label>
-    <input type="number" id="num2" name="num2"><br>
-    <button class="form-submit" type="submit">Calculate</button>
+    <div class="card">
+        <div class="calculator-card">
+            <label for="operation">Operation:</label>
+            <select id="operation" name="operation">
+                <option value="add">Add</option>
+                <option value="subtract">Subtract</option>
+                <option value="multiply">Multiply</option>
+                <option value="divide">Divide</option>
+            </select><br>
+        </div>
+        <div class="calculator-card">
+            <label for="num1">Number 1:</label>
+            <input type="float" id="num1" name="num1"><br>
+        </div>
+        <div class="calculator-card">
+            <label for="num2">Number 2:</label>
+            <input type="float" id="num2" name="num2"><br>
+        </div>
+    
+        <button class="form-submit" type="submit">Calculate</button>
+        <div class="returned-calculation">
+            {% if rounded %}
+                <p>Result: </p>
+                <p class="d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2">{{ rounded }}</p>
+            {% endif %}
+        </div>
+    </div>
 </form>
-{% if result %}
-    <p>Result: {{ result }}</p>
-{% endif %}
 
 
 {% endblock %}
