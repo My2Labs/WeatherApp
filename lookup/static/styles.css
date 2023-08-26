@@ -3,6 +3,10 @@ p {
     color: rgb(79, 79, 79);
 }
 
+.nav-link:hover {
+    color: blue;
+}
+
 .air-data  {
     display: grid;
     grid-template-columns: 50% 50%;
