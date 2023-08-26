@@ -17,6 +17,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            {% if current_user %}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url 'airhtml' %}">Air Quality Code in HTML</a>
@@ -34,13 +35,11 @@
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
+              {% endif %}
               </li>
             </ul>
-            {% if myname %}
-              <p>Hello, {{ myname }}!</p>
-            {% endif %}
-            {% if user_input %}
-                <p>Hola, {{ user_input }}!</p>
+            {% if current_user %}
+                <p>Hello, {{ current_user }}!</p>
             {% endif %}
             <!-- <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

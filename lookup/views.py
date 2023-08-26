@@ -11,6 +11,7 @@ import logging
 
 
 def calculator(request):
+    current_user = request.session['current_user']
     if request.method == 'POST':
         operation = request.POST.get('operation')
         num1 = float(request.POST.get('num1'))
@@ -25,12 +26,13 @@ def calculator(request):
             'result': result,
             'rounded': rounded,
         }
-        return render(request, 'calculator.html', context)
+        return render(request, 'calculator.html', context, {'current_user': current_user})
     else:
-        return render(request, 'calculator.html')
+        return render(request, 'calculator.html', {'current_user': current_user})
 
 
 def quantity(request):  
+    current_user = request.session['current_user']
     if request.method == 'POST':
         price = float(request.POST.get('price'))
         quantity = float(request.POST.get('quantity'))
@@ -43,9 +45,9 @@ def quantity(request):
             'total': total,
             'rounded': rounded
         }
-        return render(request, 'quantity.html', context)
+        return render(request, 'quantity.html', context, {'current_user': current_user})
     else:
-        return render(request, 'quantity.html')
+        return render(request, 'quantity.html', {'current_user': current_user})
 
 
 def display_items(request):
@@ -59,11 +61,13 @@ def display_items(request):
 
 def enter(request):
     import requests
-    user_input = request.POST.get('user_input', '') 
     form = GreetingForm(request.POST or None)
     myname = request.POST.get('myname', '')
     age = request.POST.get('age', '')
-
+    user_input = request.POST.get('user_input', '') 
+    request.session['current_user'] = user_input 
+    current_user = request.session['current_user']
+    
    
     # if request.method == 'POST':
     #     form = GreetingForm(request.POST)
@@ -74,11 +78,12 @@ def enter(request):
     #     form = GreetingForm()
 
     
-    return render(request, 'enter.html', {
+    return render(request, 'enter.html',{
         'user_input': user_input,
         'form': form,
         'myname': myname,
         'age': age,
+        'current_user': current_user,
        })
 
 
@@ -86,6 +91,7 @@ def enter(request):
 def airviews(request):
     import json
     import requests
+    current_user = request.session['current_user']
 
     if request.method == "POST":
         zipcode = request.POST['zipcode']
@@ -123,7 +129,8 @@ def airviews(request):
             'api': api, 
             'category_description': category_description, 
             'category_color': category_color,
-            'zipcode': zipcode
+            'zipcode': zipcode,
+            'current_user': current_user
             })
 
     else:
@@ -159,30 +166,13 @@ def airviews(request):
             'api': api, 
             'category_description': category_description, 
             'category_color': category_color,
+            'current_user': current_user
             })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 def airhtml(request):
     import json
     import requests
+    current_user = request.session['current_user']
 
     if request.method == "POST":
         zipcode = request.POST['zipcode']
@@ -194,7 +184,7 @@ def airhtml(request):
             api = "Error.."
         
 
-        return render(request, 'airhtml.html', {'api': api, 'zipcode': zipcode})
+        return render(request, 'airhtml.html', {'api': api, 'zipcode': zipcode, 'current_user': current_user})
     
     else:  
         api_request = requests.get("https://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=37201&distance=25&API_KEY=60CCA6E7-534C-4471-A04F-0DAA8BADD8A7")
@@ -205,4 +195,4 @@ def airhtml(request):
             api = "Error.."
 
 
-        return render(request, 'airhtml.html', {'api': api})
+        return render(request, 'airhtml.html', {'api': api, 'current_user': current_user})
